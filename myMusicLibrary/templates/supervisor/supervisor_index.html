@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Logout</button>
+</form>
+    <a class="btn btn-success" href="{% url 'supervisor:adaugare' %}">Adaugare user</a>
+    <a class="btn btn-success" href="{% url 'songs:adaugare' %}">Adaugare melodie</a>
+    <a class="btn btn-success" href="{% url 'supervisor:lista_melodii' %}">Afisare melodii</a>
+
+
+    <table class="table col-md-12">
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Actions</th>
+            <th style="width: 30%; text-align: center;">Delete</th>
+        </tr>
+        </thead>
+    <tbody>
+    {% for item in user_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.first_name }}</td>
+            <td>{{ item.last_name }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+                <a href="{% url 'supervisor:modificare' item.id %}" class="btn btn-success">Editare user</a>
+            </td>
+            <td>
+                <form method="post" action="/supervisor/sterge_final/">
+                    {% csrf_token %}
+                    <input style="visibility: hidden" name = 'legatura2' id = 'legatura2' value='{{ item.id }}'>
+                    <button class="btn btn-success" name="buton" id = "buton">Sterge user</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+{% endblock %}

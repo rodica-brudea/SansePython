@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<a class="btn btn-success" href="{% url 'songs:song_list' %}">Inapoi/Refresh</a>
+{% endblock %}
+
+
+<!--<form method="post" autocomplete="off" action="/songs/song_index.html">-->
+<!--            {% csrf_token %}-->
+<!--            <div>Are you sure you want to delete "{{ object }}"?</div>-->
+<!--            <button type="submit" class="btn btn-success">Sterge</button>-->
+<!--        </form>-->

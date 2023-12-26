@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+   <table class="table">
+    <thead>
+    <tr>
+        <th>Play</th>
+        <th>Name</th>
+        <th>Album</th>
+        <th>Artist</th>
+        <th style="width: 30%">Get Song</th>
+    </tr>
+    </thead>
+    <tbody>
+    <a class="btn btn-success" href="{% url 'songs:song_list' %}">Inapoi</a>
+    {% for row in music_list %}
+            <td><audio controls>
+                <source src = 'media/{{ row.artist }}/{{ row.album }}/{{ row.name }}' type="audio/mp4">
+                    Your browser does not support the audio element.
+                </audio>
+            </td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.album }}</td>
+            <td>{{ row.artist }}</td>
+            <td><form method="post" action="/userprofile/adauga_melodie/">
+                {% csrf_token %}
+                <button class="btn btn-success" name="buton" id = "buton">Add</button>
+                <input style="visibility: hidden" name = 'melodie' id = 'melodie' value='{{ row.id }}'>
+                <input style="visibility: hidden" name = 'utiliz' id = 'utiliz' value='{{ usr_id }}'>
+            </form></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+   </table>
+{% endblock %}
+
