@@ -12,6 +12,6 @@ urlpatterns = [
     path('adaugare/', views.CreateNewAccountView.as_view(), name='adaugare'),
     path('<int:pk>/adauga_melodii/', views.CreateSongsView.as_view(), name='adauga_melodii'),
     path('<int:pk>/modificare/', views.UpdateUserView.as_view(), name='modificare'),
-    path('views1/sterge_mel/', views.sterge_mel, name='sterge_mel'),
-    path('sterge_final/', views.sterge_final, name='sterge_final'),
+    path('<int:pk>/sterge_mel_sup/', views.sterge_mel_sup, name='sterge_mel_sup'),
+    path('<int:pk>/sterge_final/', views.sterge_final, name='sterge_final'),
 ]

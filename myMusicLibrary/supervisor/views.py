@@ -1,15 +1,14 @@
-from django.shortcuts import render
-
-# Create your views here.
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 
 from django.urls import reverse
 from django.views.generic import CreateView, ListView, UpdateView
 
-from songs.models import MySongs
 from supervisor.forms import NewAccountForm
+
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+
+from songs.models import MySongs
 
 
 class CreateNewAccountView(LoginRequiredMixin, CreateView):
@@ -75,29 +74,16 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
         return reverse('supervisor:lista_user')
 
 
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-
-from songs.models import MySongs
-
-def sterge_mel(request):
-
-    rez = request.POST.getlist('legatura3')
-    leg = int(rez[0])
+def sterge_mel_sup(request, pk):
+    leg = int(pk)
     MySongs.mel.through.objects.filter(mysongs_id=leg).delete()
     MySongs.objects.filter(id=leg).delete()
-    queryset = User.objects.all()
-    queyset1 = MySongs.objects.all()
-    queryset2 = MySongs.mel.through.objects.all()
-    get_id = request.user.id
-    context = {'user_list': queryset, 'music_list': queyset1, 'mel_list': queryset2, 'usr_id': get_id}
-    return render(request, "supervisor/supervisor_index.html", context)
+    return redirect("supervisor:lista_user")
 
-def sterge_final(request):
-    if request.POST.getlist('legatura2'):
-        rez = request.POST.getlist('legatura2')
-        leg = int(rez[0])
-        usr_id = leg
+
+def sterge_final(request, pk):
+    if pk != []:
+        usr_id = int(pk)
         MySongs.mel.through.objects.all().filter(id=usr_id).delete()
         utilizator = User(usr_id)
         utilizator.delete()

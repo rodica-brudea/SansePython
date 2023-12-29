@@ -32,12 +32,8 @@
             <td>
                 <a href="{% url 'supervisor:modificare' item.id %}" class="btn btn-success">Editare user</a>
             </td>
-            <td>
-                <form method="post" action="/supervisor/sterge_final/">
-                    {% csrf_token %}
-                    <input style="visibility: hidden" name = 'legatura2' id = 'legatura2' value='{{ item.id }}'>
-                    <button class="btn btn-success" name="buton" id = "buton">Sterge user</button>
-                </form>
+            <td style="width: 30%; text-align: center;">
+                <a href="{% url 'supervisor:sterge_final' item.id %}" class="btn btn-success">Sterge user</a>
             </td>
         </tr>
     {% endfor %}

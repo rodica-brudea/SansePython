@@ -1,23 +1,13 @@
 import random
-from urllib import request
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
 from pyradios import RadioBrowser
 
-import userprofile
-from songs.forms import SearchForm
-from django.forms import fields
-from django.shortcuts import render
-
-# # Create your views here.
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-#
-# # Create your views here.
+
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, UpdateView, FormView, DeleteView
+from django.views.generic import ListView, CreateView
 
 from songs.models import MySongs
 
@@ -28,15 +18,6 @@ class SongsView(LoginRequiredMixin, ListView):      # pt user autentificat
     template_name = 'songs/song_index.html'
 
 
-class SearchView(LoginRequiredMixin, FormView):
-    template_name = 'songs/rez.html'
-    form_class = SearchForm
-
-    def form_valid(self, form):
-        self.results = form.get_results()
-        return super(SearchView, self).get(self.request)
-
-
 class CreateSongsView(LoginRequiredMixin, CreateView):
 
     model = MySongs
@@ -45,17 +26,6 @@ class CreateSongsView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('supervisor:lista_melodii')
-
-
-class UpdateSongsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-
-    model = MySongs
-    fields = ['comp_path']
-
-    template_name = 'forms.html'
-
-    def get_success_url(self):
-        return reverse('songs:song_list')
 
 
 def myView(request):
@@ -92,9 +62,7 @@ def search(request):
                     if lista_mel[i].mysongs_id == item.id and lista_mel[i].user_id == get_id:
                         query.append(item)
 
-            a = list(set(queryset))
-            b = list(set(query))
-            d = [*{*a} - {*b}]
+            d = [*{*queryset} - {*query}]
             context = {'music_list': d,
                        'usr_id': get_id,
                        'mel_list': getsongs}
@@ -106,31 +74,10 @@ def search(request):
         return render(request,"songs/search.html", {})
 
 
-# class StergeSongView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-#
-#     model = MySongs
-#
-#     template_name = "songs/sterge_mel.html"
-#
-#     def test_func(self):
-#         if (get_song := MySongs.mel.through.objects.filter(id=self.kwargs['pk'])) and get_song.exists():
-#             return True
-#         return False
-#
-#     def get_success_url(self):
-#         return reverse("songs:song_index")
-
-
-def sterge_mel(request):
-    rez = request.POST.getlist('legatura')
-    leg = int(rez[0])
+def sterge_mel(request, pk):
+    leg = int(pk)
     MySongs.mel.through.objects.filter(id=leg).delete()
-    queryset = MySongs.objects.all()
-    queryset2 = User.objects.all()
-    queryset3 = MySongs.mel.through.objects.all()
-    get_id = request.user.id
-    context = {'music_list': queryset, 'user_list': queryset2, 'mel_list': queryset3, 'usr_id': get_id}
-    return render(request, "songs/song_index.html", context)
+    return redirect("songs:song_list")
 
 
 def sterge_final(request):

@@ -29,7 +29,6 @@ urlpatterns = [
     path('songs/', include("songs.urls")),
     path('supervisor/', include("supervisor.urls")),
     path('userprofile/', include("userprofile.urls")),
-    path('songs/rez.html', views.SearchView.as_view(), name='rez.html'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL_1, document_root=settings.MEDIA_ROOT_1)

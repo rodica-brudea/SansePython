@@ -29,36 +29,34 @@
     </td>
         <td><h6>{{ name }} {{ country }} {{ homepage }}</h6></td>
     </tr>
-    {% for row in music_list %}
-    {% for user in user_list %}
     {% for item in mel_list %}
-    {% if usr_id == user.id and item.user_id == user.id and row.id == item.mysongs_id %}
-            <tr>
-                {% load strip_quotes %}
-                {% with row.comp_path|stripq:"\"" as line %}
-                <td><audio controls>
-                    <source src = 'media/{{ line }}' type="audio/mp4">
-                        Your browser does not support the audio element.
-                    </audio>
-                </td>
-                {% endwith %}
-                {% load song_values %}
-                {% with row.comp_path|spliting:"\\" as melodies %}
-                   {% for mels in melodies %}
-                        {% with mels|stripq:"\"" as mel %}
-                            <td>{{ mel }}</td>
+        {% for row in music_list %}
+            {% for user in user_list %}
+                {% if usr_id == user.id and item.user_id == user.id and row.id == item.mysongs_id %}
+                    <tr>
+                        {% load strip_quotes %}
+                        {% with row.comp_path|stripq:"\"" as line %}
+                        <td><audio controls>
+                            <source src = 'media/{{ line }}' type="audio/mp4">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </td>
                         {% endwith %}
-                   {% endfor %}
-                {% endwith %}
-                <td><form method="post" action="./sterge_mel">
-                    {% csrf_token %}
-                        <input style="visibility: hidden" name = 'legatura' id = 'legatura' value='{{ item.id }}'>
-                        <button class="btn btn-success" name="buton" id = "buton1">Sterge melodii</button>
-                </form></td>
-            </tr>
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
+                        {% load song_values %}
+                        {% with row.comp_path|spliting:"\\" as melodies %}
+                           {% for mels in melodies %}
+                                {% with mels|stripq:"\"" as mel %}
+                                    <td>{{ mel }}</td>
+                                {% endwith %}
+                           {% endfor %}
+                        {% endwith %}
+                        <td style="width: 30%; text-align: center">
+                            <a class="btn btn-success" href="{% url 'songs:sterge_mel' item.id %}">Sterge Melodie</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
     </tbody>
     </table>

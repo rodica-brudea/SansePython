@@ -34,11 +34,7 @@
                     {% endwith %}
                {% endfor %}
             {% endwith %}
-            <td><form method="post" action="/supervisor/views/sterge_mel/">
-                    {% csrf_token %}
-                        <input style="visibility: hidden" name = 'legatura3' id = 'legatura3' value='{{ row.id }}'>
-                        <button class="btn btn-success" name="buton" id = "buton1">Sterge melodie</button>
-            </form></td>
+            <td><a class="btn btn-success" href="{% url 'supervisor:sterge_mel_sup' row.id %}">Sterge Melodie</a></td>
         </tr>
     {% endfor %}
 

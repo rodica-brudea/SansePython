@@ -25,12 +25,10 @@ def signup(request):
         return render(request, 'registration/signup.html', {'form': form})
 
 
-def adauga_melodie(request):
+def adauga_melodie(request, pk1, pk2):
 
-    rez = request.POST.getlist('melodie')
-    muz_id = int(rez[0])
-    rez2 = request.POST.getlist('utiliz')
-    urs_id = int(rez2[0])
+    muz_id = int(pk1)
+    urs_id = int(pk2)
 
     through_instance = MySongs.mel.through.objects.latest('id')
     latest_mel_user = through_instance.user

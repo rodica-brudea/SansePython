@@ -21,12 +21,9 @@
             <td>{{ row.name }}</td>
             <td>{{ row.album }}</td>
             <td>{{ row.artist }}</td>
-            <td><form method="post" action="/userprofile/adauga_melodie/">
-                {% csrf_token %}
-                <button class="btn btn-success" name="buton" id = "buton">Add</button>
-                <input style="visibility: hidden" name = 'melodie' id = 'melodie' value='{{ row.id }}'>
-                <input style="visibility: hidden" name = 'utiliz' id = 'utiliz' value='{{ usr_id }}'>
-            </form></td>
+            <td>
+                <a class="btn btn-success" href="{% url 'userprofile:adauga_melodie' pk1=row.id pk2=usr_id %}">Add</a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
