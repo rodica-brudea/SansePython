@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-p4o36=d8ylinn%*s%kv&tjaf5quwxk#ruy(a3q-vid2j41xs@z
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.171',
-                 '86.124.247.220',
-                 '127.0.0.1',]
+                 '127.0.0.1',
+                 'localhost',
+                 'mymusic',
+                 '*',
+                 '0.0.0.0',
+                 '192.168.253.55',
+                 '86.124.247.3']
 
 
 # Application definition
